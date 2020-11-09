@@ -94,5 +94,6 @@
     - add card sounds, shuffling, etc.
     - add winning indicators on higher cards
     - add time delays & graphics for card movements
+    - add responsive design elements
 
 */

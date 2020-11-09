@@ -8,20 +8,45 @@ h1, h2, div {
 
 .container {
     display: flex;
+    height: 60vmin;
     
 }
 
 .player1, .player2 {
     width: 20%;
     height: 100%;
-    background-color: blue;
+    font-size: 2vmin;
+    display: grid;
 
+}
+
+.player1{
+    background-color: blue;
+}
+.player2{
+    background-color: red;
 }
 
 .battleField {
     width: 60%;
     height: 100%;
     background-color: green;
+    font-size: 3vmin;
+    display: grid;
 
+
+
+}
+h4 {
+    /*vertical-align: bottom;*/
+}
+
+.cardCount, #thePot{
+    background-color: hotpink;
+
+}
+
+#duelBox{
+    background-color: purple;
 
 }
