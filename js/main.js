@@ -44,15 +44,12 @@ let victor;
 let p1DuelCard;
 //player 2 dueling card (not sure if needed)
 let p2DuelCard;
-//# cards in each deck and on battlefield = length of cards in array
-let p1CardCount;
-let p2CardCount;
-let battlefieldCardCount;
+;
 
 
 /*----- cached element references -----*/
 //game message
-const message = document.getElementsByClassName('msg');
+const message = document.getElementById('msg');
 
 //card img divs and card counts
 const player1ImgBox = document.getElementsByClassName('p1Cards');
@@ -66,10 +63,10 @@ const bfDuelBox = document.getElementsByClassName('duelBox');
 const bfCardCount = document.getElementById('bfcc');
 
 //buttons
-const dealButton = document.getElementsByClassName('deal');
-const duelButton = document.getElementsByClassName('duel');
-const collectSpoilsButton = document.getElementsByClassName('collectSpoils');
-const resetGameButton = document.getElementsByClassName('reset');
+const dealButton = document.getElementById('deal');
+const duelButton = document.getElementById('duel');
+const collectSpoilsButton = document.getElementById('collectSpoils');
+const resetGameButton = document.getElementById('reset');
 
 
 /*----- event listeners -----*/
@@ -100,8 +97,17 @@ function initialize() {
     victor = null;
     console.log('victor set to null');
 
-    //images: show deck in duel box
-    //only deal and reset game buttons active (reset should just reshuffle cards -- won't be noticeable)
+    //set message
+    message.innerHTML = 'Click "DEAL" to Get Started!';
+
+    //images: show card deck in duel box
+    //...to be coded
+
+    //updated card counts...
+    render();
+    
+    //only "deal" and "reset game" buttons active (reset should just reshuffle cards -- won't be noticeable)
+    //...to be coded
 }
 
 
@@ -120,10 +126,11 @@ function shuffle(array) {
 }
 
 
-//deal
+
+//deal function
 function deal() {
    console.log("deal button is working");
-
+    //on click, card deck to be split between player 1 and player 2
     for (let i = 0; i < shuffledDeck.length; i++){
         if ((i+2)%2===0) {
             p1Deck.push(shuffledDeck[i]);
@@ -132,20 +139,39 @@ function deal() {
             p2Deck.push(shuffledDeck[i]);
         }
     }
-    //on click, card deck to be split between player 1 and player 2
-        //images to show this; main deck gone, players have decks...
-    //deal button goes away
-    //duel and reset game button visible/active 
+    console.log('p1 & p2 decks created');
+    
+    //images to show this; main deck gone from duel box, players have decks...
+    //... to be coded
+    
+    //deal button goes away/inactive; duel and reset game button visible/active
+    //... to be coded
+    
+    //update message...
+    message.innerHTML = `Click "DUEL" to battle!`;
+    //update card counts
+    render();
+
+  
+
 }
 
 
 
-//render
+//render function
 function render() {
-    console.log('render is working');
-    //update images shown in player boxes, duel box, and the pot
+    console.log('render is working');    
     //update card counts
-    //update message
+    let p1CardCount = p1Deck.length;
+    let p2CardCount = p1Deck.length;
+    let battlefieldCardCount = bfDeck.length;
+
+    player1CardCount.innerHTML = `Cards: ${p1CardCount}`;
+    player2CardCount.innerHTML = `Cards: ${p2CardCount}`;
+    bfCardCount.innerHTML = `Cards: ${battlefieldCardCount}`;
+
+    //more actions???
+    //...tbd
 }
 
 
