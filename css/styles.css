@@ -34,19 +34,10 @@ h1, h2, div {
     font-size: 3vmin;
     display: grid;
 
-
-
-}
-h4 {
-    /*vertical-align: bottom;*/
 }
 
-.cardCount, #thePot{
-    background-color: hotpink;
-
-}
-
-#duelBox{
-    background-color: purple;
+.duelBox, .thePot{
+    background-color: white;
+    padding: 4vmin;
 
 }
