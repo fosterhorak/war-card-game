@@ -60,8 +60,9 @@ const player1CardCount = document.getElementById('p1cc');
 const player2ImgBox = document.getElementsByClassName('p2Cards');
 const player2CardCount = document.getElementById('p2cc');
 
-const bfThePot = document.getElementsByClassName('thePot');
-const bfDuelBox = document.getElementsByClassName('duelBox');
+const p1DuelBox = document.getElementById('p1duelBox');
+const p2DuelBox = document.getElementById('p2duelBox');
+
 const bfCardCount = document.getElementById('bfcc');
 
 //buttons
@@ -117,7 +118,8 @@ function initialize() {
     //updated card counts...
     render();
     
-    //only "deal" and "reset game" buttons active (reset should just reshuffle cards -- won't be noticeable)
+    //only "deal" and "reset game" buttons active 
+    //(reset should just reshuffle cards -- won't be noticeable)
     //...to be coded
 }
 
@@ -213,6 +215,8 @@ function duel() {
     console.log(p2InPlayDeck);
 
         //show these two images in duel/in-play box
+    p1DuelBox.innerHTML = ` .card.${p1InPlayDeck[0].face}`;
+    p2DuelBox.ClassName = ` .card.${p2InPlayDeck[0].face}`;    
         //icebox: add slight delay between p1 and p2
 
     //compare cards function: determines winner

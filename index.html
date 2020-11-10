@@ -5,40 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IT'S WAR!</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/css_card_library/css/cardstarter.css">
     <script defer src = "js/main.js"></script>
 </head>
 <body>
-    <h1 class = header>IT'S WAR!</h1>
-    <h2 id = msg></h2>
-    <div class = container>
-        <div class = player1>
+    <h1 class = "header">IT'S WAR!</h1>
+    <h2 id = "msg"></h2>
+    <div class = "container">
+        <div class = "player1">
             <H2>PLAYER 1</H2>
-            <div class = cards id = p1Cards>IMG of P1 Deck</div>
-            <h4 class = cardcount id = p1cc></h4>
+            <div class = "card back-red medium" id = "p1Cards">IMG</div>
+            <h4 class = "cardcount" id = "p1cc"></h4>
         </div>
 
-        <div class = battleField>
+        <div class = "battleField">
             <H2>BATTLE FIELD</H2>
-            <div class = thePot>IMG of Cards up in the winning pot</div>
-            <div class = duelBox>IMG of cards in duel</div>
-            <h4 class = cardcount id = bfcc></h4>
+            <div class = "cardDisplay">
+                <div class = "card dQ large" id = "p1duelBox">IMG</div>
+                <div class = "card dQ large" id = "p2duelBox">IMG</div>
+            </div>
+            <h4 class = "cardcount" id = "bfcc"></h4>
         </div>
 
-        <div class = player2>
+        <div class = "player2">
             <H2>PLAYER 2</H2>
-            <div class = cards id = p2Cards>IMG of P2 deck</div>
-            <h4 class = cardcount id = p2cc></h4>
+            <div class = "card back-blue medium" id = "p2Cards">IMG</div>
+            <h4 class = "cardcount" id = "p2cc"></h4>
 
         </div>
     </div>
 
-    <div class = buttons>
-        <button id = deal>DEAL</button>
-        <button id = duel>DUEL</button>
-        <button id = war>WAR</button>
-        <button id = collectSpoils>COLLECT SPOILS</button>
+    <div class = "buttons">
+        <button id = "deal">DEAL</button>
+        <button id = "duel">DUEL</button>
+        <button id = "war">WAR</button>
+        <button id = "collectSpoils">COLLECT SPOILS</button>
         <br>
-        <button id = reset>RESET GAME</button>
+        <button id = "reset">RESET GAME</button>
     </div>
     
 </body>

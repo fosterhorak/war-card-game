@@ -28,8 +28,10 @@
      droppable place, like an empty pile. */ }
   .card.small {
     font-size: 12px; }
+  .card.medium {
+    font-size: 4vmin; }
   .card.large {
-    font-size: 26px; }
+    font-size: 5vmin; }
   .card.xlarge {
     font-size: 42px; }
   .card.no-border {
