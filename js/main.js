@@ -36,17 +36,28 @@ let p2Deck;
 let p1InPlayDeck;
 let p2InPlayDeck;
 
+//card deck counts
+let p1CardCount;
+let p2CardCount;
+let battlefieldCardCount;
+
+//state to determine what images/buttons should be visible/available...
+let state;
 
 //winner -- winner of individual battles / duels
 let winner;
 //Victor -- winner of entire game
 let victor;
 
-//player 1 dueling card (not sure if needed)
+//player 1 dueling card
 let p1DuelCard;
-//player 2 dueling card (not sure if needed)
+let p1DuelCardValue;
+let p1DuelCardFace;
+//player 2 dueling card
 let p2DuelCard;
-;
+let p2DuelCardValue;
+let p2DuelCardFace;
+
 
 
 /*----- cached element references -----*/
@@ -54,12 +65,14 @@ let p2DuelCard;
 const message = document.getElementById('msg');
 
 //card img divs and card counts
-const player1ImgBox = document.getElementsByClassName('p1Cards');
+
+const player1ImgBox = document.getElementById('p1Cards');
 const player1CardCount = document.getElementById('p1cc');
 
-const player2ImgBox = document.getElementsByClassName('p2Cards');
+const player2ImgBox = document.getElementById('p2Cards');
 const player2CardCount = document.getElementById('p2cc');
 
+const cardDisplayBox = document.getElementById('cardDisplay');
 const p1DuelBox = document.getElementById('p1duelBox');
 const p2DuelBox = document.getElementById('p2duelBox');
 
@@ -110,12 +123,14 @@ function initialize() {
     console.log('victor set to null');
 
     //set message
-    message.innerHTML = 'Click "DEAL" to Get Started!';
+    message.innerHTML = "It's On! <br> Click 'DEAL' to Begin!";
 
     //images: show card deck in duel box
     //...to be coded
 
-    //updated card counts...
+    state = 'initial';
+    //updated card counts & other cache items...
+
     render();
     
     //only "deal" and "reset game" buttons active 
@@ -158,16 +173,13 @@ function deal() {
     shuffledDeck = [];
     console.log('shuffled deck is cleared');
     console.log(shuffledDeck);
-
-    //images to show this; main deck gone from duel box, players have decks...
-    //... to be coded
     
-    //deal button goes away/inactive; only duel and reset game button visible/active
-    //... to be coded
-    
+    //update state...
+    state = 'deal';
     //update message...
-    message.innerHTML = `Click "DUEL" to battle!`;
-    //update card counts
+    message.innerHTML = `Ready to Play! <br> Click "DUEL" to battle!`;
+    
+    //update card counts, card images, and buttons
     render();
 
   
@@ -176,21 +188,6 @@ function deal() {
 
 
 
-//render function
-function render() {
-    console.log('render is working');    
-    //update card counts
-    let p1CardCount = p1Deck.length;
-    let p2CardCount = p1Deck.length;
-    let battlefieldCardCount = p1InPlayDeck.length + p2InPlayDeck.length;
-
-    player1CardCount.innerHTML = `Cards: ${p1CardCount}`;
-    player2CardCount.innerHTML = `Cards: ${p2CardCount}`;
-    bfCardCount.innerHTML = `Cards: ${battlefieldCardCount}`;
-
-    //more actions???
-    //...tbd
-}
 
 
 //duel function 
@@ -213,36 +210,40 @@ function duel() {
     console.log("p2 card transferred to in-play")
     console.log(p2Deck);
     console.log(p2InPlayDeck);
-
-        //show these two images in duel/in-play box
-    p1DuelBox.innerHTML = ` .card.${p1InPlayDeck[0].face}`;
-    p2DuelBox.ClassName = ` .card.${p2InPlayDeck[0].face}`;    
+  
         //icebox: add slight delay between p1 and p2
 
     //compare cards function: determines winner
     cardComparison();
-
-    render();
+    
+    if (winner === 'Player 1' || 'Player 2') {
+        state = 'duel';
+        render();
+    }
+    if (winner === 'Tie'){
+        state = 'war';
+        render();
+    }
 }
 
 
 //compare cards function
 function cardComparison() {
     console.log("cardComparison is working");
-    p1DuelCard = p1InPlayDeck[0].value;
+    p1DuelCardValue = p1InPlayDeck[0].value;
     console.log(`p1 dual card value: ${p1DuelCard}`)
-    p2DuelCard = p2InPlayDeck[0].value;
+    p2DuelCardValue = p2InPlayDeck[0].value;
     console.log(`p2 dual card value: ${p2DuelCard}`)
 
     //if value of cards is the same; winner = tie
-    if (p1DuelCard === p2DuelCard) { 
+    if (p1DuelCardValue === p2DuelCardValue) { 
         winner = 'Tie'
         message.innerHTML = `Tie! This Means War! <br> Click "WAR" Button!`;
         //make only WAR and RESET buttons available/clickable
         //.. to be coded
     };
     //if value of P1 card is greater; winner = p1
-    if (p1DuelCard > p2DuelCard) {
+    if (p1DuelCardValue > p2DuelCardValue) {
         winner = 'Player 1'
         message.innerHTML = `Player 1 Victory! <br> Click "COLLECT SPOILS"!`;
         //make only COLLECT SPOILS and RESET buttons available/clickable
@@ -250,7 +251,7 @@ function cardComparison() {
 
     };
     //else winner = p2
-    if (p1DuelCard < p2DuelCard){
+    if (p1DuelCardValue < p2DuelCardValue){
         winner = "Player 2"
         message.innerHTML = `Player 2 Victory! <br> Click "COLLECT SPOILS"!`;
         //make only COLLECT SPOILS and RESET buttons available/clickable
@@ -279,7 +280,8 @@ function war() {
         //then run duel function again
             //duel function should be set up to only compare players duel cards
             //duel cards = most recent p1 an p2 cards added 
-    
+
+    render();
 }
 
 
@@ -288,8 +290,22 @@ function war() {
 function collectSpoils() {
     console.log("collect spoils fnc is working");
     //depending on who the winner is (p1 or p2)...
-    //all cards from 'in-play' decks will move to the end of the winner's deck
+    //all cards from 'in-play' decks will move to the bottom of the winner's deck
     //reset player in-play decks to zero
+
+    if (winner === 'Player 1') {
+        p1Deck.push(p1InPlayDeck.splice(0,p1InPlayDeck.length));
+        p1Deck.push(p2InPlayDeck.splice(0,p2InPlayDeck.length));
+    }
+    if (winner === 'Player 2') {
+        p2Deck.push(p1InPlayDeck.splice(0,p1InPlayDeck.length));
+        p2Deck.push(p2InPlayDeck.splice(0,p2InPlayDeck.length));
+    }
+    
+    //update state
+    state = 'duel';
+    //update card counts, images and buttons
+    render();
 
 }
 
@@ -322,10 +338,117 @@ function victorCheck4() {
         // put into compare function if winner = tie?
 }
 
-/* icebox:
+//render function
+function render() {
+    console.log('render is working');    
+    //update card counts
+    p1CardCount = p1Deck.length;
+    p2CardCount = p1Deck.length;
+    battlefieldCardCount = p1InPlayDeck.length + p2InPlayDeck.length;
+
+    player1CardCount.innerHTML = `Cards: ${p1CardCount}`;
+    player2CardCount.innerHTML = `Cards: ${p2CardCount}`;
+    bfCardCount.innerHTML = `Cards: ${battlefieldCardCount}`;
+
+    //update card images an buttons available based on state...
+   
+/*
+    //initial state
+    if (state === 'intitial') {
+        //card images
+        player1ImgBox.className = ""; 
+        player2ImgBox.className = "";
+        p1DuelBox.classList.add("back-blue card large");
+        p2DuelBox.className = "";
+
+        //buttons
+        //deal available
+        //duel not available
+        //war not available
+        //collect spoils not available
+        //reset available
+    };
+
+    //deal state
+    if (state === 'deal') {
+        //card images
+        player1ImgBox.className = "back-red card medium"; 
+        player2ImgBox.className = "back-blue card medium";
+        p1DuelBox.className = "";
+        p2DuelBox.className = "";
+
+        //buttons
+        //deal not available
+        //duel available
+        //war not available
+        //collect spoils not available
+        //reset available
+    };
+
+    //duel state
+    if (state === 'duel') {
+        //card images
+        p1DuelCardFace = p1InPlayDeck[0].face;
+        console.log(`p1 dual card face: ${p1DuelCardFace}`)
+        p2DuelCardFace = p2InPlayDeck[0].face;
+        console.log(`p2 dual card value: ${p2DuelFace}`)
+        
+        player1ImgBox.className = `back-red card medium`; 
+        player2ImgBox.className = `back-blue card medium`;
+        p1DuelBox.className = `${p1DuelCardFace} card large`;
+        p2DuelBox.className = `${p2DuelCardFace} card large`;
+
+        //buttons
+        //deal not available
+        //duel not available
+        //war not available
+        //collect spoils available
+        //reset available
+    };
+
+  //war state
+    if (state = 'war') {
+        //card images
+        player1ImgBox.className = "back-red card medium"; 
+        player2ImgBox.className = "back-blue card medium";
+        p1DuelBox.className = `card large hA`;
+        p2DuelBox.className = `card large ${p2InPlayDeck[0].face}`;
+
+        //buttons
+        //deal available
+        //duel not available
+        //war not available
+        //collect spoils not available
+        //reset available
+
+    };
+
+    //winner state
+    if (state = 'winner') {
+        //card images
+        player1ImgBox.className = "back-red card medium"; 
+        player2ImgBox.className = "back-blue card medium";
+        p1DuelBox.className = `card large hA`;
+        p2DuelBox.className = `card large ${p2InPlayDeck[0].face}`;
+
+        //buttons
+        //deal available
+        //duel not available
+        //war not available
+        //collect spoils not available
+        //reset available
+    };
+*/
+
+    //more actions???
+    //...tbd
+}
+
+
+
+/* icebox additions:
     - add card sounds, shuffling, etc.
     - add winning indicators on higher cards
     - add time delays & graphics for card movements
     - add responsive design elements
-
 */
