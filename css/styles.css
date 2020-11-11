@@ -62,9 +62,14 @@ h1, h2, div {
    
 
 }
-
+.cardcount {
+    height: 5vmin;
+    margin: 0;
+}
 .buttons {
+    align-self: end;
     height: 8vmin;
+    margin: 0;
     display: grid;
     gap: .5vmin;
 }

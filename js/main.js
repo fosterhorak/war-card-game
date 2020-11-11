@@ -274,14 +274,20 @@ function collectSpoils() {
     if (winner === "Player 1") {
         console.log(`p1 won... p1 deck increase, play decks empty, p2 deck same`)
         console.log(`BEFORE...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
-        p1Deck.push(p1InPlayDeck.splice(0, p1InPlayDeck.length), p2InPlayDeck.splice(0, p2InPlayDeck.length));
+        //p1Deck.push(p1InPlayDeck.splice(0, p1InPlayDeck.length), p2InPlayDeck.splice(0, p2InPlayDeck.length));
+        p1Deck = [...p1Deck, ...p1InPlayDeck, ...p2InPlayDeck];
+        p1InPlayDeck = [];
+        p2InPlayDeck = [];
         console.log(`AFTER...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
         //return p1Deck, p1InPlayDeck, p2Deck, p2InPlayDeck;
     }
     else if (winner === "Player 2") {
         console.log(`p2 won... p2 deck increase, play decks empty, p1 deck same`)
         console.log(`BEFORE...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
-        p2Deck.push(p1InPlayDeck.splice(0, p1InPlayDeck.length), p2InPlayDeck.splice(0, p2InPlayDeck.length));
+        //p2Deck.push(p1InPlayDeck.splice(0, p1InPlayDeck.length), p2InPlayDeck.splice(0, p2InPlayDeck.length));
+        p2Deck = [...p2Deck, ...p1InPlayDeck, ...p2InPlayDeck];
+        p1InPlayDeck = [];
+        p2InPlayDeck = [];
         console.log(`AFTER...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
         //return p1Deck, p1InPlayDeck, p2Deck, p2InPlayDeck;
 
@@ -486,7 +492,7 @@ function initialState() {
     console.log('initialState fnc is called');
     
     //card images
-    p1DuelBox.className = "back-blue card large";
+    p1DuelBox.className = "back-blue card large"; //why doesn't this work???
     p1DuelBox.className = '';
     player1ImgBox.className = ''; 
     player2ImgBox.className = '';
@@ -596,7 +602,7 @@ function gameOverState() {
 
 
 
-/* icebox additions:
+/* // ICEBOX ADDITIONS (IF TIME PERMITS):
     - add card sounds, shuffling, etc.
     - add winning indicators on higher cards
     - add time delays & graphics for card movements
