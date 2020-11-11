@@ -24,9 +24,9 @@ const   masterDeck = [
     { face: 'hQ', value: 10 }, { face: 'hK', value: 10 }, { face: 'hA', value: 11 } ]
 
 
-    /*----- app's state (variables) -----*/
+/*----- app's state (variables) -----*/
 
-//full shuffled card deck
+//shuffled card deck
 let shuffledDeck;
 //player 1 card deck
 let p1Deck;
@@ -46,14 +46,15 @@ let state;
 
 //winner -- winner of individual battles / duels
 let winner;
-//Victor -- winner of entire game
+//victor -- winner of entire game
 let victor;
 
-//player 1 dueling card
+//player 1 dueling card & value/face
 let p1DuelCard;
 let p1DuelCardValue;
 let p1DuelCardFace;
-//player 2 dueling card
+
+//player 2 dueling card & value/face
 let p2DuelCard;
 let p2DuelCardValue;
 let p2DuelCardFace;
@@ -61,18 +62,18 @@ let p2DuelCardFace;
 
 
 /*----- cached element references -----*/
+
 //game message
 const message = document.getElementById('msg');
 
 //card img divs and card counts
-
 const player1ImgBox = document.getElementById('p1Cards');
 const player1CardCount = document.getElementById('p1cc');
 
 const player2ImgBox = document.getElementById('p2Cards');
 const player2CardCount = document.getElementById('p2cc');
 
-const cardDisplayBox = document.getElementById('cardDisplay');
+//const cardDisplayBox = document.getElementById('cardDisplay');
 const p1DuelBox = document.getElementById('p1duelBox');
 const p2DuelBox = document.getElementById('p2duelBox');
 
@@ -86,7 +87,10 @@ const collectSpoilsButton = document.getElementById('collectSpoils');
 const resetGameButton = document.getElementById('reset');
 
 
+
+
 /*----- event listeners -----*/
+
 //listen for button clicks...
 dealButton.addEventListener('click', deal);
 duelButton.addEventListener('click', duel);
@@ -99,8 +103,8 @@ resetGameButton.addEventListener('click', initialize);
 
 initialize();
 
-//initialize function
-    //start with full shuffled deck; players decks should be empty
+//INITIALIZE FUNCTION
+//Start w/ full shuffled deck; all p1 & p2 decks will be empty
 function initialize() {
     console.log("initialize is working");
     shuffledDeck = shuffle(masterDeck);
@@ -129,6 +133,7 @@ function initialize() {
     //...to be coded
 
     state = 'initial';
+    console.log(`state shoudl be set to initial. State = ${state}`)
     //updated card counts & other cache items...
 
     render();
@@ -139,7 +144,7 @@ function initialize() {
 }
 
 
-//shuffle function to shuffle masterDeck and create shuffledDeck
+//shuffle function used to shuffle masterDeck and create shuffledDeck
 function shuffle(array) {
     //create copy of array...
     const tempArray = [...array];
@@ -154,10 +159,10 @@ function shuffle(array) {
 }
 
 
-
-//deal function
+//DEAL FUNCTION
+//divides shuffled deck btwn p1 & 2 & clears shuffled deck
 function deal() {
-   console.log("deal button is working");
+   console.log("-----deal button clicked-------");
     //on click, card deck to be split between player 1 and player 2
     for (let i = 0; i < shuffledDeck.length; i++){
         if ((i+2)%2===0) {
@@ -175,7 +180,7 @@ function deal() {
     console.log(shuffledDeck);
     
     //update state...
-    state = 'deal';
+    state = 'duelReady';
     //update message...
     message.innerHTML = `Ready to Play! <br> Click "DUEL" to battle!`;
     
@@ -189,13 +194,13 @@ function deal() {
 
 
 
-
-//duel function 
+//DUEL FUNCTION
+//flips top cards from p1 & p2 decks and compares values
 function duel() {
-    console.log("duel button is working");
+    console.log("------duel button clicked------");
     
-    //winner check
-    //...to be coded
+    //victor check
+    victorCheck1();
 
     //top card from player 1 and player 2 move to inplay decks and are compared
         //remove top card from top of p1 deck and add to p1InPlay deck
@@ -213,236 +218,381 @@ function duel() {
   
         //icebox: add slight delay between p1 and p2
 
-    //compare cards function: determines winner
+    //compare cards function: determines and returns winner
     cardComparison();
     
-    if (winner === 'Player 1' || 'Player 2') {
-        state = 'duel';
+    if (winner === 'Player 1') {
+        message.innerHTML = `Player 1 Victory! <br> Click "COLLECT SPOILS"!`;
+        state = 'collectReady';
         render();
-    }
-    if (winner === 'Tie'){
-        state = 'war';
+    }else if(winner === 'Player 2') {
+        message.innerHTML = `Player 2 Victory! <br> Click "COLLECT SPOILS"!`;
+        state = 'collectReady';
+        render();
+    }else if (winner === 'Tie'){
+        state = 'warReady';
+        message.innerHTML = `Tie! This Means War! <br> Click "WAR" Button!`;
         render();
     }
 }
 
-
-//compare cards function
+//CARD COMPARISON
+//compares p1 & p2 duel card values during a duel and a war
 function cardComparison() {
     console.log("cardComparison is working");
     p1DuelCardValue = p1InPlayDeck[0].value;
-    console.log(`p1 dual card value: ${p1DuelCard}`)
+    console.log(`p1 dual card value: ${p1DuelCardValue}`)
     p2DuelCardValue = p2InPlayDeck[0].value;
-    console.log(`p2 dual card value: ${p2DuelCard}`)
+    console.log(`p2 dual card value: ${p2DuelCardValue}`)
 
     //if value of cards is the same; winner = tie
     if (p1DuelCardValue === p2DuelCardValue) { 
-        winner = 'Tie'
-        message.innerHTML = `Tie! This Means War! <br> Click "WAR" Button!`;
-        //make only WAR and RESET buttons available/clickable
-        //.. to be coded
-    };
-    //if value of P1 card is greater; winner = p1
-    if (p1DuelCardValue > p2DuelCardValue) {
-        winner = 'Player 1'
-        message.innerHTML = `Player 1 Victory! <br> Click "COLLECT SPOILS"!`;
-        //make only COLLECT SPOILS and RESET buttons available/clickable
-        //.. to be coded
+        winner = 'Tie';
+    
+    //else if value of P1 card is greater; winner = p1
+    } else if (p1DuelCardValue > p2DuelCardValue) {
+        winner = 'Player 1';
 
-    };
-    //else winner = p2
-    if (p1DuelCardValue < p2DuelCardValue){
-        winner = "Player 2"
-        message.innerHTML = `Player 2 Victory! <br> Click "COLLECT SPOILS"!`;
-        //make only COLLECT SPOILS and RESET buttons available/clickable
-        //.. to be coded
-    };
+    //else if winner = p2
+    } else if (p1DuelCardValue < p2DuelCardValue){
+        winner = 'Player 2';
+        
+    }
     return winner;
 }
 
-//war function
+
+//COLLECT SPOILS FUNCTION
+//when collect spoils button is clicked, all battlefield cards go to winner
+function collectSpoils() {
+    console.log("-------collect spoils button clicked---------");
+    //depending on who the winner is (p1 or p2)... all cards from 'in-play' move to bottom of winner's deck
+    //reset in-play decks to zero
+    
+    //updateCardCount();
+
+    if (winner === "Player 1") {
+        console.log(`p1 won... p1 deck increase, play decks empty, p2 deck same`)
+        console.log(`BEFORE...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
+        p1Deck.push(p1InPlayDeck.splice(0, p1InPlayDeck.length), p2InPlayDeck.splice(0, p2InPlayDeck.length));
+        console.log(`AFTER...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
+        //return p1Deck, p1InPlayDeck, p2Deck, p2InPlayDeck;
+    }
+    else if (winner === "Player 2") {
+        console.log(`p2 won... p2 deck increase, play decks empty, p1 deck same`)
+        console.log(`BEFORE...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
+        p2Deck.push(p1InPlayDeck.splice(0, p1InPlayDeck.length), p2InPlayDeck.splice(0, p2InPlayDeck.length));
+        console.log(`AFTER...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
+        //return p1Deck, p1InPlayDeck, p2Deck, p2InPlayDeck;
+
+    }
+    
+    updateCardCount();
+
+    //update state
+    state = 'duelReady';
+    console.log(`state = ${state}`);
+
+    //update message
+    message.innerHTML = `Ready to Duel Again! <br> Click "DUEL" to battle!`;
+
+
+    //render
+    render();
+}
+
+//WAR FUNCTION
+//similar to duel function, but takes top 4 cards from each deck and then runs the card comparison funciton
 function war() {
-    console.log("war fnc is working");
+    console.log("------- war btn clicked --------");
+    
     //victor check for 4 cards
-    //... to be coded
+    victorCheck4();
 
     //take top 4 cards from p1 deck and  transfer to top of p1 in play deck
+    p1InPlayDeck.unshift(p1Deck[0], p1Deck[1], p1Deck[2], p1Deck[3]);
+    p1Deck.shift();
+    p1Deck.shift();
+    p1Deck.shift();
+    p1Deck.shift();
+    console.log("4x p1 cards transferred to in-play... p1 deck & p1 in play deck")
+    console.log(p1Deck);
+    console.log(p1InPlayDeck);
     //top card of in play deck becomes new duel card
 
     //take top 4 cards from p2 deck and  transfer to top of p2 in play deck
+    p2InPlayDeck.unshift(p2Deck[0], p2Deck[1], p2Deck[2], p2Deck[3]);
+    p2Deck.shift();
+    p2Deck.shift();
+    p2Deck.shift();
+    p2Deck.shift();
+    console.log("4x p2 cards transferred to in-play... p2 deck & p2 in play deck")
+    console.log(p2Deck);
+    console.log(p2InPlayDeck);
     //top card of in play deck becomes new duel card
 
+    updateCardCount();
+
     //run card comparison function again!
-
-
-    //card images in duel box moved up to "thePot" div (remain in battlefield deck)
-    //three addition cards from each player added to duel box (face down)
-        //then run duel function again
-            //duel function should be set up to only compare players duel cards
-            //duel cards = most recent p1 an p2 cards added 
-
-    render();
-}
-
-
-
-//collect spoils
-function collectSpoils() {
-    console.log("collect spoils fnc is working");
-    //depending on who the winner is (p1 or p2)...
-    //all cards from 'in-play' decks will move to the bottom of the winner's deck
-    //reset player in-play decks to zero
+    cardComparison();
 
     if (winner === 'Player 1') {
-        p1Deck.push(p1InPlayDeck.splice(0,p1InPlayDeck.length));
-        p1Deck.push(p2InPlayDeck.splice(0,p2InPlayDeck.length));
-    }
-    if (winner === 'Player 2') {
-        p2Deck.push(p1InPlayDeck.splice(0,p1InPlayDeck.length));
-        p2Deck.push(p2InPlayDeck.splice(0,p2InPlayDeck.length));
-    }
-    
-    //update state
-    state = 'duel';
-    //update card counts, images and buttons
-    render();
+        message.innerHTML = `Player 1 Victory! <br> Click "COLLECT SPOILS"!`;
+        state = 'collectReady';
 
+    }else if(winner === 'Player 2') {
+        message.innerHTML = `Player 2 Victory! <br> Click "COLLECT SPOILS"!`;
+        state = 'collectReady';
+     
+    }else if (winner === 'Tie'){
+        state = 'warReady';
+        message.innerHTML = `Tie Again! This Means War! <br> Click "WAR" Button!`;
+
+    }
+    //render
+    render();
 }
 
 
+//CHECK FOR VICTOR FUNCTIONS
 
-//check for victor
+//checking for victor before a 1 card duel
 function victorCheck1() {
     console.log("victor check 1 fnc is working");
     //if either players deck is empty, the other player wins
-    // if playerdeck.length = 0; other player wins
-    // update message: "Player X is out of cards... Player Y is the Victor!""
-    // dissable all buttons except reset game
-    
-    //add this victor check function into functions above as needed 
-        // beginning of deal function
-        // render function??
+    if (p1Deck.length<1) {
+        victor = 'Player 2';
+        console.log(`victor = ${victor}`)
+        message.innerHTML = `Player 1 is out of Cards... Player 2 is the VICTOR!
+            <br> - Click 'RESET GAME' to Play Again -`;
+        
+        //update game state and render
+        state = 'gameOver';
+        render();
 
+    } else if (p2Deck.length<1) {
+        victor = 'Player 1';
+        console.log(`victor = ${victor}`)
+        message.innerHTML = `Player 2 is out of Cards... Player 1 is the VICTOR!
+            <br> - Click 'RESET GAME' to Play Again -`;
+        
+        //update game state and render
+        state = 'gameOver';
+        render();
+
+    } else {
+        victor = null;
+        console.log(`victor = ${victor}`)
+        return;
+    }
 }
 
+//checking for victor before a 4 card war
 function victorCheck4() {
     console.log("victor check 4 fnc is working");
-    //victor check before going into war...
-    //if either players deck has less than 4 cards, the other player wins
-    // if playerdeck.length <4; other player wins
-    // update message: "Player X is out of cards... Player Y is the Victor!""
-    // dissable all buttons except reset game
-    
+    //if either players deck is empty, the other player wins
+    if (p1Deck.length<4) {
+        victor = 'Player 2';
+        console.log(`victor = ${victor}`)
+        message.innerHTML = `Player 1 is out of Cards => Player 2 is the VICTOR!
+            <br> - Click 'RESET GAME' to Play Again -`;
+        
+        //update game state and render
+        state = 'gameOver';
+        render();
+
+    } else if (p2Deck.length<4) {
+        victor = 'Player 1';
+        console.log(`victor = ${victor}`)
+        message.innerHTML = `Player 2 is out of Cards => Player 1 is the VICTOR!
+            <br> - Click 'RESET GAME' to Play Again -`;
+        
+        //update game state and render
+        state = 'gameOver';
+        render();
+
+    } else {
+        victor = null;
+        console.log(`victor = ${victor}`)
+        return;
+    };
+        
     //add this victor check function into functions above as needed 
         // beginning of war function
         // put into compare function if winner = tie?
 }
 
-//render function
+
+
+//RENDER FUNCTION
 function render() {
     console.log('render is working');    
+    
     //update card counts
+    updateCardCount();
+
+    //update appearance based on state...
+    console.log(`what's the state?: ${state}`);
+
+    //initial state
+    if (state === 'initial') {
+        initialState();
+    }
+    //duelReady state
+    else if (state === 'duelReady') {
+        duelReadyState();
+    }
+    //collectReady state
+    else if (state === 'collectReady') {
+        collectReadyState();
+    }
+    
+    //warReady state
+    else if (state === 'warReady') {
+        warReadyState();
+    }
+
+    //gameOver state
+    else if (state === 'gameOver') {
+        gameOverState();
+    }
+}
+
+  
+//update card count function (used in render function)
+function updateCardCount() {
+    console.log('updateCardCount is called');
+    
     p1CardCount = p1Deck.length;
-    p2CardCount = p1Deck.length;
+    console.log(`p1cardcount = ${p1CardCount}`);
+    
+    p2CardCount = p2Deck.length;
+    console.log(`p2cardcount = ${p2CardCount}`);
+    
     battlefieldCardCount = p1InPlayDeck.length + p2InPlayDeck.length;
+    console.log(`bfcardcount = ${battlefieldCardCount}`);
+
 
     player1CardCount.innerHTML = `Cards: ${p1CardCount}`;
     player2CardCount.innerHTML = `Cards: ${p2CardCount}`;
     bfCardCount.innerHTML = `Cards: ${battlefieldCardCount}`;
-
-    //update card images an buttons available based on state...
-   
-/*
-    //initial state
-    if (state === 'intitial') {
-        //card images
-        player1ImgBox.className = ""; 
-        player2ImgBox.className = "";
-        p1DuelBox.classList.add("back-blue card large");
-        p2DuelBox.className = "";
-
-        //buttons
-        //deal available
-        //duel not available
-        //war not available
-        //collect spoils not available
-        //reset available
-    };
-
-    //deal state
-    if (state === 'deal') {
-        //card images
-        player1ImgBox.className = "back-red card medium"; 
-        player2ImgBox.className = "back-blue card medium";
-        p1DuelBox.className = "";
-        p2DuelBox.className = "";
-
-        //buttons
-        //deal not available
-        //duel available
-        //war not available
-        //collect spoils not available
-        //reset available
-    };
-
-    //duel state
-    if (state === 'duel') {
-        //card images
-        p1DuelCardFace = p1InPlayDeck[0].face;
-        console.log(`p1 dual card face: ${p1DuelCardFace}`)
-        p2DuelCardFace = p2InPlayDeck[0].face;
-        console.log(`p2 dual card value: ${p2DuelFace}`)
-        
-        player1ImgBox.className = `back-red card medium`; 
-        player2ImgBox.className = `back-blue card medium`;
-        p1DuelBox.className = `${p1DuelCardFace} card large`;
-        p2DuelBox.className = `${p2DuelCardFace} card large`;
-
-        //buttons
-        //deal not available
-        //duel not available
-        //war not available
-        //collect spoils available
-        //reset available
-    };
-
-  //war state
-    if (state = 'war') {
-        //card images
-        player1ImgBox.className = "back-red card medium"; 
-        player2ImgBox.className = "back-blue card medium";
-        p1DuelBox.className = `card large hA`;
-        p2DuelBox.className = `card large ${p2InPlayDeck[0].face}`;
-
-        //buttons
-        //deal available
-        //duel not available
-        //war not available
-        //collect spoils not available
-        //reset available
-
-    };
-
-    //winner state
-    if (state = 'winner') {
-        //card images
-        player1ImgBox.className = "back-red card medium"; 
-        player2ImgBox.className = "back-blue card medium";
-        p1DuelBox.className = `card large hA`;
-        p2DuelBox.className = `card large ${p2InPlayDeck[0].face}`;
-
-        //buttons
-        //deal available
-        //duel not available
-        //war not available
-        //collect spoils not available
-        //reset available
-    };
-*/
-
-    //more actions???
-    //...tbd
 }
+
+
+
+// STATE FUNCTIONS // - used in render function
+//initial state fnc
+function initialState() {
+    console.log('initialState fnc is called');
+    
+    //card images
+    p1DuelBox.className = "back-blue card large";
+    p1DuelBox.className = '';
+    player1ImgBox.className = ''; 
+    player2ImgBox.className = '';
+    
+    
+    //buttons - to be coded
+    //not visible: duel, war, collect
+    duelButton.style.display = 'none';
+    warButton.style.display = 'none';
+    collectSpoilsButton.style.display = 'none';
+    //visible: deal, reset
+    dealButton.style.display = 'inline';
+ 
+}
+
+//duelReady state fnc
+function duelReadyState() {
+    console.log('duelReadyState fnc is called');
+
+    //card images
+        //add card back images to p1 and p2 decks
+    //player1ImgBox.outerHTML = '<div class = "back-red card medium" id = "p1Cards"></div>';  --alternative way to write
+    player1ImgBox.className = "back-red card medium"; 
+    //player2ImgBox.outerHTML = '<div class = "back-blue card medium" id = "p2Cards"></div>';  --alternative way to write
+    player2ImgBox.className = "back-blue card medium";
+        //clear out card back from initialize stated
+    p1DuelBox.className = '';
+    p2DuelBox.className = '';
+    
+    //buttons - to be coded
+    //not visible: deal, collect, war
+    dealButton.style.display = 'none';
+    warButton.style.display = 'none';
+    collectSpoilsButton.style.display = 'none';
+    //visible: duel, reset
+    duelButton.style.display = 'inline';
+
+
+}
+//collectReady state fnc
+function collectReadyState() {
+    console.log('collectReadyState fnc is called');
+    
+    //card images
+        //determine p1 and p2 dual card faces to display
+    p1DuelCardFace = p1InPlayDeck[0].face;
+    console.log(`p1 dual card face: ${p1DuelCardFace}`)
+    p2DuelCardFace = p2InPlayDeck[0].face;
+    console.log(`p2 dual card face: ${p2DuelCardFace}`)
+        //update classes of duel boxes to display correct card faces
+    //p1DuelBox.outerHTML = '<div class = `${p1DuelCardFace} card large` id = "p1duelBox"></div>'; --alternative way to write
+    p1DuelBox.className = `${p1DuelCardFace} card large`;
+    //p2DuelBox.outerHTML = '<div class = `${p2DuelCardFace} card large` id = "p2duelBox"></div>'; --alternative way to write
+    p2DuelBox.className = `${p2DuelCardFace} card large`;
+    
+    //buttons - to be coded
+    //not visible: deal, duel, war
+    duelButton.style.display = 'none';
+    dealButton.style.display = 'none';
+    warButton.style.display = 'none';
+    //visible: collect, reset 
+    collectSpoilsButton.style.display = 'inline';
+
+}
+
+//warReady state fnc
+function warReadyState() {
+    console.log('warReadyState fnc is called');
+    //card images
+        //determine p1 and p2 dual card faces to display
+    p1DuelCardFace = p1InPlayDeck[0].face;
+    console.log(`p1 dual card face: ${p1DuelCardFace}`)
+    p2DuelCardFace = p2InPlayDeck[0].face;
+    console.log(`p2 dual card face: ${p2DuelCardFace}`)
+        //update classes of duel boxes to display correct card faces
+    //p1DuelBox.outerHTML = '<div class = `${p1DuelCardFace} card large` id = "p1duelBox"></div>'; --alternative way to write
+    p1DuelBox.className = `${p1DuelCardFace} card large`;
+    //p2DuelBox.outerHTML = '<div class = `${p2DuelCardFace} card large` id = "p2duelBox"></div>'; --alternative way to write
+    p2DuelBox.className = `${p2DuelCardFace} card large`;
+        
+    //buttons - to be coded
+    //not visible: deal, duel, collect
+    duelButton.style.display = 'none';
+    dealButton.style.display = 'none';
+    collectSpoilsButton.style.display = 'none';
+    //visible: war, reset
+    warButton.style.display = 'inline';
+
+}
+//gameOver state fnc
+function gameOverState() {
+    console.log('gameOverState fnc is called');
+    //reminder - make sure message is set up in war / duel function//
+
+    //no update to card images?? or move all cards to victor's deck??
+
+    //buttons - to be coded
+    //not visible: deal, duel, collect, war
+    duelButton.style.display = 'none';
+    dealButton.style.display = 'none';
+    warButton.style.display = 'none';
+    collectSpoilsButton.style.display = 'none';
+    //visible: reset
+    return;
+}
+
 
 
 
