@@ -221,6 +221,7 @@ function duel() {
     //compare cards function: determines and returns winner
     cardComparison();
     
+    
     if (winner === 'Player 1') {
         message.innerHTML = `Player 1 Victory! <br> Click "COLLECT SPOILS"!`;
         state = 'collectReady';
@@ -274,7 +275,7 @@ function collectSpoils() {
     if (winner === "Player 1") {
         console.log(`p1 won... p1 deck increase, play decks empty, p2 deck same`)
         console.log(`BEFORE...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
-        //p1Deck.push(p1InPlayDeck.splice(0, p1InPlayDeck.length), p2InPlayDeck.splice(0, p2InPlayDeck.length));
+        //p1Deck.push(p1InPlayDeck.splice(0, p1InPlayDeck.length), p2InPlayDeck.splice(0, p2InPlayDeck.length)); -- coudn't get to work...
         p1Deck = [...p1Deck, ...p1InPlayDeck, ...p2InPlayDeck];
         p1InPlayDeck = [];
         p2InPlayDeck = [];
@@ -284,7 +285,7 @@ function collectSpoils() {
     else if (winner === "Player 2") {
         console.log(`p2 won... p2 deck increase, play decks empty, p1 deck same`)
         console.log(`BEFORE...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
-        //p2Deck.push(p1InPlayDeck.splice(0, p1InPlayDeck.length), p2InPlayDeck.splice(0, p2InPlayDeck.length));
+        //p2Deck.push(p1InPlayDeck.splice(0, p1InPlayDeck.length), p2InPlayDeck.splice(0, p2InPlayDeck.length));  -- coudn't get to work...
         p2Deck = [...p2Deck, ...p1InPlayDeck, ...p2InPlayDeck];
         p1InPlayDeck = [];
         p2InPlayDeck = [];
@@ -294,6 +295,7 @@ function collectSpoils() {
     }
     
     updateCardCount();
+    victorCheck1();
 
     //update state
     state = 'duelReady';
@@ -338,6 +340,7 @@ function war() {
     //top card of in play deck becomes new duel card
 
     updateCardCount();
+    victorCheck1();
 
     //run card comparison function again!
     cardComparison();
@@ -588,6 +591,11 @@ function gameOverState() {
     //reminder - make sure message is set up in war / duel function//
 
     //no update to card images?? or move all cards to victor's deck??
+    //determine p1 and p2 dual card faces to display
+    player1ImgBox.className = ``;
+    player1ImgBox.className = ``;
+    p1DuelBox.className = ``;
+    p2DuelBox.className = ``;
 
     //buttons - to be coded
     //not visible: deal, duel, collect, war
