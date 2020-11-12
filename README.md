@@ -34,8 +34,22 @@ Aces have a value of 11.
 
 
 # Screen Shots of Game Play
-...to be added
+Images of Gameplay...
 
+#### Starting Screen
+![Start](/screenshots/ss1.png)
+
+#### Deal
+![Deal](/screenshots/ss2.png)
+
+#### Duel
+![Duel](/screenshots/ss3.png)
+
+#### War
+![War!](/screenshots/ss4.png)
+
+#### Game Over
+![GameOver](/screenshots/ss5.png)
 
 # Technologies Used
 This application was made using HTML, CSS, and JavaScript.
