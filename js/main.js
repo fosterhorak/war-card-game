@@ -105,32 +105,18 @@ initialize();
 //INITIALIZE FUNCTION
 //Start w/ full shuffled deck; p1 & p2 decks will be empty
 function initialize() {
-    //console.log("initialize is working");
     shuffledDeck = shuffle(masterDeck);
-    //console.log('shuffled deck is created');
-    //console.log(shuffledDeck);
     p1Deck = [];
-    //console.log(p1Deck);
     p2Deck = [];
-    //console.log(p2Deck);
     p1InPlayDeck = [];
-    //console.log(p1InPlayDeck);
     p2InPlayDeck = [];
-    //console.log(p2InPlayDeck);
 
-    //console.log('p1,p2,& in play decks are empty');
 
     winner = null;
-    //console.log('winner set to null');
     victor = null;
-    //console.log('victor set to null');
 
-    //set message
     message.innerHTML = "It's On! <br> Click 'DEAL' to Begin!";
-
     state = 'initial';
-    //console.log(`state shoudl be set to initial. State = ${state}`)
-
     render();
 }
 
@@ -155,7 +141,6 @@ function shuffle(array) {
 //DEAL FUNCTION
 //divides shuffled deck btwn p1 & 2 & clears shuffled deck
 function deal() {
-   //console.log("-----deal button clicked-------");
    
    //on click, shuffledDeck to be split between player 1 and player 2
     for (let i = 0; i < shuffledDeck.length; i++){
@@ -180,7 +165,7 @@ function deal() {
         { face: 's02', value: 2 },{ face: 's02', value: 2 },{ face: 's02', value: 2 }, 
         { face: 's05', value: 5 },{ face: 's05', value: 5 },];
     
-        //player 2 card deck
+    //player 2 card deck
     p2Deck = [
         { face: 's03', value: 3 },{ face: 's03', value: 3 },
         { face: 's02', value: 2 },{ face: 's02', value: 2 },
@@ -188,19 +173,11 @@ function deal() {
         { face: 's02', value: 2 },{ face: 's02', value: 2 },
         { face: 's02', value: 2 },{ face: 's02', value: 2 },{ face: 's02', value: 2 }];
 */   
-
-    //console.log('p1 & p2 decks created');
-    //console.log(p1Deck);
-    //console.log(p2Deck);
+    //clearing out shuffled deck
     shuffledDeck = [];
-    //console.log('shuffled deck is cleared');
-    //console.log(shuffledDeck);
-    
-    //update state...
+   
     state = 'duelReady';
-    //update message...
     message.innerHTML = `Ready to Play! <br> Click "DUEL" to battle!`;
-    
     render();
 }
 
@@ -210,7 +187,6 @@ function deal() {
 //DUEL FUNCTION
 //flips top cards from p1 & p2 decks & compares values
 function duel() {
-    //console.log("------duel button clicked------");
     
     //run victor check
     victorCheck1();
@@ -222,17 +198,11 @@ function duel() {
     //remove top card from top of p1 deck and add to p1InPlay deck
     p1InPlayDeck.unshift(p1Deck[0]);
     p1Deck.shift();
-    //console.log("p1 card transferred to in-play")
-    //console.log(p1Deck);
-    //console.log(p1InPlayDeck);
-    
+   
     //remove top card from top of p1 deck and add to p2InPlay deck
     p2InPlayDeck.unshift(p2Deck[0]);
     p2Deck.shift();
-    //console.log("p2 card transferred to in-play")
-    //console.log(p2Deck);
-    //console.log(p2InPlayDeck);
-  
+   
     //compare cards function: determines and returns winner
     cardComparison();
     
@@ -255,11 +225,8 @@ function duel() {
 //CARD COMPARISON
 //compares p1 & p2 duel card values (called in duel and a war functions - returns winner)
 function cardComparison() {
-    //console.log("cardComparison is working");
     p1DuelCardValue = p1InPlayDeck[0].value;
-    //console.log(`p1 dual card value: ${p1DuelCardValue}`)
     p2DuelCardValue = p2InPlayDeck[0].value;
-    //console.log(`p2 dual card value: ${p2DuelCardValue}`)
 
     //if value of cards is the same; winner = tie
     if (p1DuelCardValue === p2DuelCardValue) { 
@@ -281,24 +248,16 @@ function cardComparison() {
 //COLLECT SPOILS FUNCTION
 //when collect spoils button is clicked, all in-play (battlefield) cards go to winner's deck
 function collectSpoils() {
-    //console.log("-------collect spoils button clicked---------");
     
     if (winner === "Player 1") {
-        //console.log(`p1 won... p1 deck increase, play decks empty, p2 deck same`)
-        //console.log(`BEFORE...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
-        p1Deck = [...p1Deck, ...p1InPlayDeck, ...p2InPlayDeck];
+         p1Deck = [...p1Deck, ...p1InPlayDeck, ...p2InPlayDeck];
         p1InPlayDeck = [];
         p2InPlayDeck = [];
-        //console.log(`AFTER...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
     }
     else if (winner === "Player 2") {
-        //console.log(`p2 won... p2 deck increase, play decks empty, p1 deck same`)
-        //console.log(`BEFORE...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
         p2Deck = [...p2Deck, ...p1InPlayDeck, ...p2InPlayDeck];
         p1InPlayDeck = [];
         p2InPlayDeck = [];
-        //console.log(`AFTER...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
-
     }
     
     //updated card count and check for a victor
@@ -309,7 +268,6 @@ function collectSpoils() {
 
     //update state
     state = 'duelReady';
-    //console.log(`state = ${state}`);
 
     //update message
     message.innerHTML = `Ready to Duel Again! <br> Click "DUEL" to battle!`;
@@ -320,7 +278,6 @@ function collectSpoils() {
 //WAR FUNCTION
 //similar to duel function, but takes top 4 cards from each deck
 function war() {
-    //console.log("------- war btn clicked --------");
     
     //victor check for 4 cards
     victorCheck4();
@@ -332,9 +289,6 @@ function war() {
     p1Deck.shift();
     p1Deck.shift();
     p1Deck.shift();
-    //console.log("4x p1 cards transferred to in-play... p1 deck & p1 in play deck")
-    //console.log(p1Deck);
-    //console.log(p1InPlayDeck);
 
     //take top 4 cards from p2 deck & transfer to top of p2 inplay deck
     p2InPlayDeck.unshift(p2Deck[0], p2Deck[1], p2Deck[2], p2Deck[3]);
@@ -342,10 +296,7 @@ function war() {
     p2Deck.shift();
     p2Deck.shift();
     p2Deck.shift();
-    //console.log("4x p2 cards transferred to in-play... p2 deck & p2 in play deck")
-    //console.log(p2Deck);
-    //console.log(p2InPlayDeck);
-
+ 
     updateCardCount();
 
     //compare cards function: determines and returns winner (just like in duel function)
@@ -374,11 +325,9 @@ function war() {
 
 //checking for victor before a 1 card duel
 function victorCheck1() {
-    //console.log("victor check 1 fnc is working");
     //if either players deck is empty, the other player wins (set victor, update message & state)
     if (p1Deck.length<1) {
         victor = 'Player 2';
-        //console.log(`victor = ${victor}`)
         message.innerHTML = `Player 1 is out of Cards... Player 2 is the VICTOR!
             <br> - Click 'RESET GAME' to Play Again -`;
         
@@ -388,7 +337,6 @@ function victorCheck1() {
 
     } else if (p2Deck.length<1) {
         victor = 'Player 1';
-        //console.log(`victor = ${victor}`)
         message.innerHTML = `Player 2 is out of Cards... Player 1 is the VICTOR!
             <br> - Click 'RESET GAME' to Play Again -`;
         
@@ -398,40 +346,33 @@ function victorCheck1() {
 
     } else {
         victor = null;
-        //console.log(`victor = ${victor}`)
         return;
     }
 }
 
 //checking for victor before a 4 card war
 function victorCheck4() {
-    //console.log("victor check 4 fnc is working");
     //if either players deck is empty, the other player wins (set victor, update message & state)
     if (p1Deck.length<4) {
         victor = 'Player 2';
-        //console.log(`victor = ${victor}`)
         message.innerHTML = `Player 1 ran out of Cards => Player 2 is the VICTOR!
             <br> - Click 'RESET GAME' to Play Again -`;
         
         //update game state and render
         state = 'gameOver';
-        //console.log(`state = ${state}`);
         render();
 
     } else if (p2Deck.length<4) {
         victor = 'Player 1';
-        //console.log(`victor = ${victor}`)
         message.innerHTML = `Player 2 ran out of Cards => Player 1 is the VICTOR!
             <br> - Click 'RESET GAME' to Play Again -`;
         
         //update game state and render
         state = 'gameOver';
-        //console.log(`state = ${state}`);
         render();
 
     } else {
         victor = null;
-        //console.log(`victor = ${victor}`)
         return;
     };
         
@@ -441,13 +382,11 @@ function victorCheck4() {
 
 //RENDER FUNCTION
 function render() {
-    //console.log('render is working');    
     
     //update card counts
     updateCardCount();
 
     //update appearance based on state
-    //console.log(`what's the state?: ${state}`);
 
     //initial state
     if (state === 'initial') {
@@ -476,17 +415,12 @@ function render() {
   
 //update card count function
 function updateCardCount() {
-    //console.log('updateCardCount is called');
     
     p1CardCount = p1Deck.length;
-    //console.log(`p1cardcount = ${p1CardCount}`);
     
     p2CardCount = p2Deck.length;
-    //console.log(`p2cardcount = ${p2CardCount}`);
     
     battlefieldCardCount = p1InPlayDeck.length + p2InPlayDeck.length;
-    //console.log(`bfcardcount = ${battlefieldCardCount}`);
-
 
     player1CardCount.innerHTML = `Cards: ${p1CardCount}`;
     player2CardCount.innerHTML = `Cards: ${p2CardCount}`;
@@ -499,7 +433,6 @@ function updateCardCount() {
 
 //initial state fnc
 function initialState() {
-    //console.log('initialState fnc is called');
     
     //card images
     p1DuelBox.className = "back-blue card large"; //why doesn't this work???
@@ -525,7 +458,6 @@ function initialState() {
 
 //duelReady state fnc
 function duelReadyState() {
-    //console.log('duelReadyState fnc is called');
 
     //card images
     //add card back images to p1 and p2 decks
@@ -551,14 +483,11 @@ function duelReadyState() {
 }
 //collectReady state fnc
 function collectReadyState() {
-   //console.log('collectReadyState fnc is called');
     
     //card images
     //determine p1 and p2 dual card faces to display
     p1DuelCardFace = p1InPlayDeck[0].face;
-    //console.log(`p1 dual card face: ${p1DuelCardFace}`)
     p2DuelCardFace = p2InPlayDeck[0].face;
-    //console.log(`p2 dual card face: ${p2DuelCardFace}`)
     //update classes of duel boxes to display correct card faces
     p1DuelBox.className = `${p1DuelCardFace} card large`;
     p2DuelBox.className = `${p2DuelCardFace} card large`;
@@ -579,13 +508,10 @@ function collectReadyState() {
 
 //warReady state fnc
 function warReadyState() {
-    //console.log('warReadyState fnc is called');
     //card images
     //determine p1 and p2 dual card faces to display
     p1DuelCardFace = p1InPlayDeck[0].face;
-    //console.log(`p1 dual card face: ${p1DuelCardFace}`)
     p2DuelCardFace = p2InPlayDeck[0].face;
-    //console.log(`p2 dual card face: ${p2DuelCardFace}`)
     //update classes of duel boxes to display correct card faces
     p1DuelBox.className = `${p1DuelCardFace} card large`;
     p2DuelBox.className = `${p2DuelCardFace} card large`;
@@ -606,7 +532,6 @@ function warReadyState() {
 }
 //gameOver state fnc
 function gameOverState() {
-    //console.log('gameOverState fnc is called');
 
     //clear out all card images
     player1ImgBox.className = ``;
@@ -617,25 +542,20 @@ function gameOverState() {
     //move cards and update card images & card count depending on victor
     if (victor === 'Player 1') { 
         player1ImgBox.className = `card medium back-red`; 
-        //console.log(`p1 = victor... p1 = all cards`)
-        //console.log(`BEFORE...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
         p1Deck = [...p1Deck, ...p1InPlayDeck, ...p2InPlayDeck, ...p2Deck];
         p1InPlayDeck = [];
         p2InPlayDeck = [];
         p2Deck = [];
-        //console.log(`AFTER...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
         updateCardCount();
     };
     
     if (victor === 'Player 2') { 
         player2ImgBox.className = `card medium back-blue`;
-        //console.log(`p2 = victor... p2 = all cards`)
-        //console.log(`BEFORE...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
         p2Deck = [...p2Deck, ...p1InPlayDeck, ...p2InPlayDeck, ...p1Deck];
         p1InPlayDeck = [];
         p2InPlayDeck = [];
         p1Deck = [];
-        //console.log(`AFTER...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
+        updateCardCount();
     };
 
     //buttons 
