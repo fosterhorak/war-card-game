@@ -163,7 +163,7 @@ function shuffle(array) {
 //divides shuffled deck btwn p1 & 2 & clears shuffled deck
 function deal() {
    console.log("-----deal button clicked-------");
-   /* 
+   
    //on click, card deck to be split between player 1 and player 2
     for (let i = 0; i < shuffledDeck.length; i++){
         if ((i+2)%2===0) {
@@ -175,25 +175,26 @@ function deal() {
     }
 
 
-    */
+    /* *//*
 //test decks created for development purposes
     //player 1 card deck
     p1Deck  = [
+        { face: 's02', value: 2 },{ face: 's02', value: 2 },
+        { face: 's02', value: 2 },{ face: 's02', value: 2 },
+        { face: 's02', value: 2 },{ face: 's02', value: 2 },
+        { face: 's02', value: 2 },{ face: 's02', value: 2 },
+        { face: 's02', value: 2 },{ face: 's02', value: 2 },{ face: 's02', value: 2 }, 
+        { face: 's05', value: 5 },{ face: 's05', value: 5 },];
+    console.log(p1Deck);
+    //player 2 card deck
+    p2Deck = [
         { face: 's03', value: 3 },{ face: 's03', value: 3 },
         { face: 's02', value: 2 },{ face: 's02', value: 2 },
         { face: 's02', value: 2 },{ face: 's02', value: 2 },
         { face: 's02', value: 2 },{ face: 's02', value: 2 },
         { face: 's02', value: 2 },{ face: 's02', value: 2 },{ face: 's02', value: 2 }];
-    console.log(p1Deck);
-    //player 2 card deck
-    p2Deck = [
-        { face: 's02', value: 2 },{ face: 's02', value: 2 },
-        { face: 's02', value: 2 },{ face: 's02', value: 2 },
-        { face: 's02', value: 2 },{ face: 's02', value: 2 },
-        { face: 's02', value: 2 },{ face: 's02', value: 2 },
-        { face: 's02', value: 2 },{ face: 's02', value: 2 },{ face: 's02', value: 2 }];
     console.log(p2Deck);
- /**/       
+ */       
     console.log('p1 & p2 decks created');
     console.log(p1Deck);
     console.log(p2Deck);
@@ -299,22 +300,18 @@ function collectSpoils() {
     if (winner === "Player 1") {
         console.log(`p1 won... p1 deck increase, play decks empty, p2 deck same`)
         console.log(`BEFORE...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
-        //p1Deck.push(p1InPlayDeck.splice(0, p1InPlayDeck.length), p2InPlayDeck.splice(0, p2InPlayDeck.length)); -- coudn't get to work...
         p1Deck = [...p1Deck, ...p1InPlayDeck, ...p2InPlayDeck];
         p1InPlayDeck = [];
         p2InPlayDeck = [];
         console.log(`AFTER...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
-        //return p1Deck, p1InPlayDeck, p2Deck, p2InPlayDeck;
     }
     else if (winner === "Player 2") {
         console.log(`p2 won... p2 deck increase, play decks empty, p1 deck same`)
         console.log(`BEFORE...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
-        //p2Deck.push(p1InPlayDeck.splice(0, p1InPlayDeck.length), p2InPlayDeck.splice(0, p2InPlayDeck.length));  -- coudn't get to work...
         p2Deck = [...p2Deck, ...p1InPlayDeck, ...p2InPlayDeck];
         p1InPlayDeck = [];
         p2InPlayDeck = [];
         console.log(`AFTER...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
-        //return p1Deck, p1InPlayDeck, p2Deck, p2InPlayDeck;
 
     }
     
@@ -367,8 +364,8 @@ function war() {
     //top card of in play deck becomes new duel card
 
     updateCardCount();
-    victorCheck1();
-    if (victor != null){return};
+//    victorCheck1();
+//    if (victor != null){return};
 
 
     //run card comparison function again!
@@ -432,7 +429,7 @@ function victorCheck4() {
     if (p1Deck.length<4) {
         victor = 'Player 2';
         console.log(`victor = ${victor}`)
-        message.innerHTML = `Player 1 is out of Cards => Player 2 is the VICTOR!
+        message.innerHTML = `Player 1 ran out of Cards => Player 2 is the VICTOR!
             <br> - Click 'RESET GAME' to Play Again -`;
         
         //update game state and render
@@ -443,7 +440,7 @@ function victorCheck4() {
     } else if (p2Deck.length<4) {
         victor = 'Player 1';
         console.log(`victor = ${victor}`)
-        message.innerHTML = `Player 2 is out of Cards => Player 1 is the VICTOR!
+        message.innerHTML = `Player 2 ran out of Cards => Player 1 is the VICTOR!
             <br> - Click 'RESET GAME' to Play Again -`;
         
         //update game state and render
@@ -532,13 +529,18 @@ function initialState() {
     player2ImgBox.className = '';
     
     
-    //buttons - to be coded
+    //buttons
     //not visible: duel, war, collect
     duelButton.style.display = 'none';
     warButton.style.display = 'none';
     collectSpoilsButton.style.display = 'none';
     //visible: deal, reset
     dealButton.style.display = 'inline';
+
+    //card counts
+    bfCardCount.style.display = 'none';
+    player1CardCount.style.display = 'none';
+    player2CardCount.style.display = 'none';
  
 }
 
@@ -556,7 +558,7 @@ function duelReadyState() {
     p1DuelBox.className = '';
     p2DuelBox.className = '';
     
-    //buttons - to be coded
+    //buttons
     //not visible: deal, collect, war
     dealButton.style.display = 'none';
     warButton.style.display = 'none';
@@ -564,6 +566,10 @@ function duelReadyState() {
     //visible: duel, reset
     duelButton.style.display = 'inline';
 
+    //card counts
+    bfCardCount.style.display = 'none';
+    player1CardCount.style.display = 'inline';
+    player2CardCount.style.display = 'inline';
 
 }
 //collectReady state fnc
@@ -582,7 +588,7 @@ function collectReadyState() {
     //p2DuelBox.outerHTML = '<div class = `${p2DuelCardFace} card large` id = "p2duelBox"></div>'; --alternative way to write
     p2DuelBox.className = `${p2DuelCardFace} card large`;
     
-    //buttons - to be coded
+    //buttons
     //not visible: deal, duel, war
     duelButton.style.display = 'none';
     dealButton.style.display = 'none';
@@ -590,6 +596,10 @@ function collectReadyState() {
     //visible: collect, reset 
     collectSpoilsButton.style.display = 'inline';
 
+    //card counts
+    bfCardCount.style.display = 'inline';
+    player1CardCount.style.display = 'inline';
+    player2CardCount.style.display = 'inline';
 }
 
 //warReady state fnc
@@ -607,13 +617,18 @@ function warReadyState() {
     //p2DuelBox.outerHTML = '<div class = `${p2DuelCardFace} card large` id = "p2duelBox"></div>'; --alternative way to write
     p2DuelBox.className = `${p2DuelCardFace} card large`;
         
-    //buttons - to be coded
+    //buttons
     //not visible: deal, duel, collect
     duelButton.style.display = 'none';
     dealButton.style.display = 'none';
     collectSpoilsButton.style.display = 'none';
     //visible: war, reset
     warButton.style.display = 'inline';
+
+    //card counts
+    bfCardCount.style.display = 'inline';
+    player1CardCount.style.display = 'inline';
+    player2CardCount.style.display = 'inline';
 
 }
 //gameOver state fnc
@@ -624,21 +639,45 @@ function gameOverState() {
     //no update to card images?? or move all cards to victor's deck??
     //determine p1 and p2 dual card faces to display
     player1ImgBox.className = ``;
-    player1ImgBox.className = ``;
+    player2ImgBox.className = ``;
     p1DuelBox.className = ``;
     p2DuelBox.className = ``;
 
-    if (victor === 'Player 1') { player1ImgBox.className = `card medium back-red`; };
-    if (victor === 'Player 2') { player2ImgBox.className = `card medium back-blue`; };
+    if (victor === 'Player 1') { 
+        player1ImgBox.className = `card medium back-red`; 
+        console.log(`p1 = victor... p1 = all cards`)
+        console.log(`BEFORE...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
+        p1Deck = [...p1Deck, ...p1InPlayDeck, ...p2InPlayDeck, ...p2Deck];
+        p1InPlayDeck = [];
+        p2InPlayDeck = [];
+        p2Deck = [];
+        console.log(`AFTER...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
+        updateCardCount();
+    };
+    
+    if (victor === 'Player 2') { 
+        player2ImgBox.className = `card medium back-blue`;
+        console.log(`p2 = victor... p2 = all cards`)
+        console.log(`BEFORE...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
+        p2Deck = [...p2Deck, ...p1InPlayDeck, ...p2InPlayDeck, ...p1Deck];
+        p1InPlayDeck = [];
+        p2InPlayDeck = [];
+        p1Deck = [];
+        console.log(`AFTER...p1= ${p1Deck.length}; p1inplay = ${p1InPlayDeck.length}; p2inplay = ${p2InPlayDeck.length}; p2 = ${p2Deck.length}; `);
+    };
 
-    //buttons - to be coded
+    //buttons 
     //not visible: deal, duel, collect, war
     duelButton.style.display = 'none';
     dealButton.style.display = 'none';
     warButton.style.display = 'none';
     collectSpoilsButton.style.display = 'none';
     //visible: reset
-    //return;
+
+    //card counts
+    bfCardCount.style.display = 'none';
+    player1CardCount.style.display = 'inline';
+    player2CardCount.style.display = 'inline';
 }
 
 
