@@ -60,6 +60,6 @@ This application was made using HTML, CSS, and JavaScript.
 # Next Steps
 Plans for future enhancements:
 - fix "BATTLE FIELD" from toggling when there are/aren't cards on the battle field.
-- fix buttun width toggling when there are/aren't cards on the battle field.
+- fix button width toggling when there are/aren't cards on the battle field.
 - add card sound effects
 
