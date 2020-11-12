@@ -20,7 +20,7 @@ const   masterDeck = [
     { face: 'h03', value: 3 }, { face: 'h04', value: 4 }, { face: 'h05', value: 5 }, 
     { face: 'h06', value: 6 }, { face: 'h07', value: 7 }, { face: 'h08', value: 8 },
     { face: 'h09', value: 9 }, { face: 'h10', value: 10 }, { face: 'hJ', value: 10 },
-    { face: 'hQ', value: 10 }, { face: 'hK', value: 10 }, { face: 'hA', value: 11 } ]
+    { face: 'hQ', value: 10 }, { face: 'hK', value: 10 }, { face: 'hA', value: 11 } ];
 
 
 /*----- app's state (variables) -----*/
@@ -59,7 +59,6 @@ let p2DuelCardValue;
 let p2DuelCardFace;
 
 
-
 /*----- cached element references -----*/
 
 //game message
@@ -68,14 +67,12 @@ const message = document.getElementById('msg');
 //card img divs and card counts
 const player1ImgBox = document.getElementById('p1Cards');
 const player1CardCount = document.getElementById('p1cc');
-
 const player2ImgBox = document.getElementById('p2Cards');
 const player2CardCount = document.getElementById('p2cc');
 
 //const cardDisplayBox = document.getElementById('cardDisplay');
 const p1DuelBox = document.getElementById('p1duelBox');
 const p2DuelBox = document.getElementById('p2duelBox');
-
 const bfCardCount = document.getElementById('bfcc');
 
 //buttons
@@ -84,8 +81,6 @@ const duelButton = document.getElementById('duel');
 const warButton = document.getElementById('war');
 const collectSpoilsButton = document.getElementById('collectSpoils');
 const resetGameButton = document.getElementById('reset');
-
-
 
 
 /*----- event listeners -----*/
@@ -110,7 +105,6 @@ function initialize() {
     p2Deck = [];
     p1InPlayDeck = [];
     p2InPlayDeck = [];
-
 
     winner = null;
     victor = null;
@@ -152,28 +146,7 @@ function deal() {
         }
     }
 
-
-/**/
-/*
-//TEST DECKS - to be used for demo purposes (if needed)
-    //player 1 card deck
-    p1Deck  = [
-        { face: 's02', value: 2 },{ face: 's02', value: 2 },
-        { face: 's02', value: 2 },{ face: 's02', value: 2 },
-        { face: 's02', value: 2 },{ face: 's02', value: 2 },
-        { face: 's02', value: 2 },{ face: 's02', value: 2 },
-        { face: 's02', value: 2 },{ face: 's02', value: 2 },{ face: 's02', value: 2 }, 
-        { face: 's05', value: 5 },{ face: 's05', value: 5 },];
-    
-    //player 2 card deck
-    p2Deck = [
-        { face: 's03', value: 3 },{ face: 's03', value: 3 },
-        { face: 's02', value: 2 },{ face: 's02', value: 2 },
-        { face: 's02', value: 2 },{ face: 's02', value: 2 },
-        { face: 's02', value: 2 },{ face: 's02', value: 2 },
-        { face: 's02', value: 2 },{ face: 's02', value: 2 },{ face: 's02', value: 2 }];
-*/   
-    //clearing out shuffled deck
+    //clear out shuffled deck
     shuffledDeck = [];
    
     state = 'duelReady';
@@ -182,10 +155,8 @@ function deal() {
 }
 
 
-
-
 //DUEL FUNCTION
-//flips top cards from p1 & p2 decks & compares values
+//flips top cards from p1 & p2 decks, adds to inplay decks, & compares values
 function duel() {
     
     //run victor check
@@ -193,8 +164,6 @@ function duel() {
     if (victor != null){return};
 
 
-    //top card from player 1 and player 2 move to inplay decks and are compared
-    
     //remove top card from top of p1 deck and add to p1InPlay deck
     p1InPlayDeck.unshift(p1Deck[0]);
     p1Deck.shift();
@@ -206,7 +175,7 @@ function duel() {
     //compare cards function: determines and returns winner
     cardComparison();
     
-    //based on winner, updates message, set's state, and renders...
+    //based on winner, updates message, sets state, and renders...
     if (winner === 'Player 1') {
         message.innerHTML = `Player 1 Victory! <br> Click "COLLECT SPOILS"!`;
         state = 'collectReady';
@@ -259,12 +228,11 @@ function collectSpoils() {
         p1InPlayDeck = [];
         p2InPlayDeck = [];
     }
-    
+
     //updated card count and check for a victor
     updateCardCount();
     victorCheck1();
     if (victor != null){return};
-
 
     //update state
     state = 'duelReady';
@@ -379,7 +347,6 @@ function victorCheck4() {
 }
 
 
-
 //RENDER FUNCTION
 function render() {
     
@@ -387,7 +354,6 @@ function render() {
     updateCardCount();
 
     //update appearance based on state
-
     //initial state
     if (state === 'initial') {
         initialState();
@@ -416,17 +382,16 @@ function render() {
 //update card count function
 function updateCardCount() {
     
+    //assign variable values
     p1CardCount = p1Deck.length;
-    
     p2CardCount = p2Deck.length;
-    
     battlefieldCardCount = p1InPlayDeck.length + p2InPlayDeck.length;
 
+    //plug in values to html
     player1CardCount.innerHTML = `Cards: ${p1CardCount}`;
     player2CardCount.innerHTML = `Cards: ${p2CardCount}`;
     bfCardCount.innerHTML = `Cards: ${battlefieldCardCount}`;
 }
-
 
 
 // STATE FUNCTIONS // - used to update appearance of game (only called in the render function)
@@ -440,7 +405,6 @@ function initialState() {
     player1ImgBox.className = ''; 
     player2ImgBox.className = '';
     
-    
     //buttons
     //not visible: duel, war, collect
     duelButton.style.display = 'none';
@@ -453,8 +417,8 @@ function initialState() {
     bfCardCount.style.display = 'none';
     player1CardCount.style.display = 'none';
     player2CardCount.style.display = 'none';
- 
 }
+
 
 //duelReady state fnc
 function duelReadyState() {
@@ -479,8 +443,9 @@ function duelReadyState() {
     bfCardCount.style.display = 'none';
     player1CardCount.style.display = 'inline';
     player2CardCount.style.display = 'inline';
-
 }
+
+
 //collectReady state fnc
 function collectReadyState() {
     
@@ -506,8 +471,10 @@ function collectReadyState() {
     player2CardCount.style.display = 'inline';
 }
 
+
 //warReady state fnc
 function warReadyState() {
+    
     //card images
     //determine p1 and p2 dual card faces to display
     p1DuelCardFace = p1InPlayDeck[0].face;
