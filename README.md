@@ -55,8 +55,7 @@ Images of Gameplay...
 This application was made using HTML, CSS, and JavaScript.
 
 # Getting Started
-Follow the link below to start playing!
-[Click Here to Start Playing War!](https://fosterhorak.github.io/war-card-game/)
+[Follow this link to start playing!](https://fosterhorak.github.io/war-card-game/)
 
 # Next Steps
 Plans for future enhancements:
