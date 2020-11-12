@@ -42,7 +42,7 @@ This application was made using HTML, CSS, and JavaScript.
 
 # Getting Started
 Follow the link below to start playing!
-[...insert link]
+[Click Here to Start Playing War!](https://fosterhorak.github.io/war-card-game/)
 
 # Next Steps
 Plans for future enhancements:
