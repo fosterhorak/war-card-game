@@ -1,9 +1,11 @@
+/*color pallet*/
 :root {
     --player1blue: rgb(11, 25, 79);
     --player2red: rgb(200, 0, 17);
     --battlefield: rgb(0, 136, 62);
 }
 
+/*general formatting*/
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
@@ -18,8 +20,7 @@ h1, h3, h2, div {
 
 .container {
     display: flex;
-    height: 70vmin;
-    
+    height: 70vmin; 
 }
 
 .player1, .player2 {
@@ -32,8 +33,6 @@ h1, h3, h2, div {
     justify-content: space-around;
     border-radius: 25px;
     margin: 1vmin;
-    
-
 }
 
 .player1{
@@ -57,10 +56,6 @@ h1, h3, h2, div {
     margin: 1vmin;
     align-items: center;
     justify-content: center;
-
-
-
-
 }
 
 .cardDisplay {
@@ -69,13 +64,13 @@ h1, h3, h2, div {
     align-self: center;
     width: 100%;
     height: 100%;
-   
-
 }
 .cardcount {
     height: 5vmin;
     margin: 0;
 }
+
+/*buttons*/
 .buttons {
     align-self: end;
     height: 8vmin;
@@ -86,7 +81,6 @@ h1, h3, h2, div {
 
 #reset {
     background-color: burlywood;
-
 }
 
 #deal, #duel, #war, #collectSpoils, #reset {
