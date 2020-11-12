@@ -29,19 +29,9 @@ const   masterDeck = [
 //shuffled card deck
 let shuffledDeck;
 //player 1 card deck
-let p1Deck  = [
-    { face: 's02', value: 2 },{ face: 's02', value: 2 },
-    { face: 's02', value: 2 },{ face: 's02', value: 2 },
-    { face: 's02', value: 2 },{ face: 's02', value: 2 },
-    { face: 's02', value: 2 },{ face: 's02', value: 2 },
-    { face: 's02', value: 2 },{ face: 's02', value: 2 }];
+let p1Deck;
 //player 2 card deck
-let p2Deck = [
-    { face: 's03', value: 3 },{ face: 's03', value: 3 },
-    { face: 's02', value: 2 },{ face: 's02', value: 2 },
-    { face: 's02', value: 2 },{ face: 's02', value: 2 },
-    { face: 's02', value: 2 },{ face: 's02', value: 2 },
-    { face: 's02', value: 2 },{ face: 's02', value: 2 }];
+let p2Deck;
 //"battle field" decks
 let p1InPlayDeck;
 let p2InPlayDeck;
@@ -189,7 +179,7 @@ function deal() {
 //test decks created for development purposes
     //player 1 card deck
     p1Deck  = [
-        { face: 's02', value: 2 },{ face: 's02', value: 2 },
+        { face: 's03', value: 3 },{ face: 's03', value: 3 },
         { face: 's02', value: 2 },{ face: 's02', value: 2 },
         { face: 's02', value: 2 },{ face: 's02', value: 2 },
         { face: 's02', value: 2 },{ face: 's02', value: 2 },
@@ -197,7 +187,7 @@ function deal() {
     console.log(p1Deck);
     //player 2 card deck
     p2Deck = [
-        { face: 's03', value: 3 },{ face: 's03', value: 3 },
+        { face: 's02', value: 2 },{ face: 's02', value: 2 },
         { face: 's02', value: 2 },{ face: 's02', value: 2 },
         { face: 's02', value: 2 },{ face: 's02', value: 2 },
         { face: 's02', value: 2 },{ face: 's02', value: 2 },
