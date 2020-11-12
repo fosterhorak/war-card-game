@@ -29,9 +29,19 @@ const   masterDeck = [
 //shuffled card deck
 let shuffledDeck;
 //player 1 card deck
-let p1Deck;
+let p1Deck  = [
+    { face: 's02', value: 2 },{ face: 's02', value: 2 },
+    { face: 's02', value: 2 },{ face: 's02', value: 2 },
+    { face: 's02', value: 2 },{ face: 's02', value: 2 },
+    { face: 's02', value: 2 },{ face: 's02', value: 2 },
+    { face: 's02', value: 2 },{ face: 's02', value: 2 }];
 //player 2 card deck
-let p2Deck;
+let p2Deck = [
+    { face: 's03', value: 3 },{ face: 's03', value: 3 },
+    { face: 's02', value: 2 },{ face: 's02', value: 2 },
+    { face: 's02', value: 2 },{ face: 's02', value: 2 },
+    { face: 's02', value: 2 },{ face: 's02', value: 2 },
+    { face: 's02', value: 2 },{ face: 's02', value: 2 }];
 //"battle field" decks
 let p1InPlayDeck;
 let p2InPlayDeck;
@@ -163,7 +173,8 @@ function shuffle(array) {
 //divides shuffled deck btwn p1 & 2 & clears shuffled deck
 function deal() {
    console.log("-----deal button clicked-------");
-    //on click, card deck to be split between player 1 and player 2
+   /* 
+   //on click, card deck to be split between player 1 and player 2
     for (let i = 0; i < shuffledDeck.length; i++){
         if ((i+2)%2===0) {
             p1Deck.push(shuffledDeck[i]);
@@ -172,6 +183,27 @@ function deal() {
             p2Deck.push(shuffledDeck[i]);
         }
     }
+
+
+    */
+//test decks created for development purposes
+    //player 1 card deck
+    p1Deck  = [
+        { face: 's02', value: 2 },{ face: 's02', value: 2 },
+        { face: 's02', value: 2 },{ face: 's02', value: 2 },
+        { face: 's02', value: 2 },{ face: 's02', value: 2 },
+        { face: 's02', value: 2 },{ face: 's02', value: 2 },
+        { face: 's02', value: 2 },{ face: 's02', value: 2 },{ face: 's02', value: 2 }];
+    console.log(p1Deck);
+    //player 2 card deck
+    p2Deck = [
+        { face: 's03', value: 3 },{ face: 's03', value: 3 },
+        { face: 's02', value: 2 },{ face: 's02', value: 2 },
+        { face: 's02', value: 2 },{ face: 's02', value: 2 },
+        { face: 's02', value: 2 },{ face: 's02', value: 2 },
+        { face: 's02', value: 2 },{ face: 's02', value: 2 },{ face: 's02', value: 2 }];
+    console.log(p2Deck);
+ /**/       
     console.log('p1 & p2 decks created');
     console.log(p1Deck);
     console.log(p2Deck);
@@ -201,6 +233,8 @@ function duel() {
     
     //victor check
     victorCheck1();
+    if (victor != null){return};
+
 
     //top card from player 1 and player 2 move to inplay decks and are compared
         //remove top card from top of p1 deck and add to p1InPlay deck
@@ -296,6 +330,8 @@ function collectSpoils() {
     
     updateCardCount();
     victorCheck1();
+    if (victor != null){return};
+
 
     //update state
     state = 'duelReady';
@@ -316,6 +352,7 @@ function war() {
     
     //victor check for 4 cards
     victorCheck4();
+    if (victor != null){return};
 
     //take top 4 cards from p1 deck and  transfer to top of p1 in play deck
     p1InPlayDeck.unshift(p1Deck[0], p1Deck[1], p1Deck[2], p1Deck[3]);
@@ -341,6 +378,8 @@ function war() {
 
     updateCardCount();
     victorCheck1();
+    if (victor != null){return};
+
 
     //run card comparison function again!
     cardComparison();
@@ -408,6 +447,7 @@ function victorCheck4() {
         
         //update game state and render
         state = 'gameOver';
+        console.log(`state = ${state}`);
         render();
 
     } else if (p2Deck.length<4) {
@@ -418,6 +458,7 @@ function victorCheck4() {
         
         //update game state and render
         state = 'gameOver';
+        console.log(`state = ${state}`);
         render();
 
     } else {
@@ -597,6 +638,9 @@ function gameOverState() {
     p1DuelBox.className = ``;
     p2DuelBox.className = ``;
 
+    if (victor === 'Player 1') { player1ImgBox.className = `card medium back-red`; };
+    if (victor === 'Player 2') { player2ImgBox.className = `card medium back-blue`; };
+
     //buttons - to be coded
     //not visible: deal, duel, collect, war
     duelButton.style.display = 'none';
@@ -604,7 +648,7 @@ function gameOverState() {
     warButton.style.display = 'none';
     collectSpoilsButton.style.display = 'none';
     //visible: reset
-    return;
+    //return;
 }
 
 
