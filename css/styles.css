@@ -70,6 +70,10 @@ h1, h3, h2, div {
     margin: 0;
 }
 
+#bfTitle {
+    align-self:  start;
+}
+
 /*buttons*/
 .buttons {
     align-self: end;
